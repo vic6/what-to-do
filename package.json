@@ -1,0 +1,16 @@
+{
+  "name": "what-to-do",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "./node_modules/.bin/babel"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  },
+  "dependencies": {
+    "babel-preset-env": "1.5.2",
+    "babel-preset-react": "6.24.1"
+  }
+}
