@@ -17,6 +17,12 @@ var onFormSubmit = function onFormSubmit(event) {
   }
 };
 
+var randomOption = function randomOption() {
+  var max = app.options.length;
+  var randNum = Math.floor(Math.random() * max);
+  console.log(app.options[randNum]);
+};
+
 var clearOptions = function clearOptions() {
   app.options = [];
   renderForm();
@@ -43,9 +49,9 @@ var renderForm = function renderForm() {
       " "
     ),
     React.createElement(
-      "p",
-      null,
-      app.options.length
+      "button",
+      { disabled: app.options < 1, onClick: randomOption },
+      "What should I do?"
     ),
     React.createElement(
       "button",

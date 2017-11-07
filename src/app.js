@@ -15,6 +15,12 @@ const onFormSubmit = function(event) {
   }
 };
 
+const randomOption = function() {
+  let max = app.options.length;
+  let randNum = Math.floor(Math.random() * max);
+  console.log(app.options[randNum]);
+};
+
 const clearOptions = function() {
   app.options = [];
   renderForm();
@@ -26,8 +32,11 @@ const renderForm = function() {
       <h1>{app.title}</h1>
       <p>{app.subtitle ? app.subtitle : null}</p>
       <p>{app.options.length > 0 ? "Here are your options" : "No options"} </p>
-      <p>{app.options.length}</p>
+      <button disabled={app.options < 1} onClick={randomOption}>
+        What should I do?
+      </button>
       <button onClick={clearOptions}>Clear Options</button>
+
       <ol>
         {app.options.map(option => {
           return <li key={option}>{option}</li>;
