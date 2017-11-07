@@ -8,5 +8,4 @@ var multiplier = {
 };
 
 
-
 ReactDOM.render(templateTwo, document.getElementById("app"));

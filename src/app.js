@@ -1,6 +1,6 @@
 const app = {
   title: "What To Do",
-  subtitle: "I eat ice cream more that anything",
+  subtitle: "Do know what to do? I'll chose for you!*",
   options: []
 };
 
