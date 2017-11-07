@@ -3,87 +3,78 @@
 var app = {
   title: "What To Do",
   subtitle: "I eat ice cream more that anything",
-  options: ["Paper", "Sauce"]
+  options: []
 };
 
-var templete = React.createElement(
-  "div",
-  null,
-  React.createElement(
-    "h1",
-    null,
-    app.title
-  ),
-  React.createElement(
-    "p",
-    null,
-    app.subtitle ? app.subtitle : null
-  ),
-  React.createElement(
-    "p",
-    null,
-    app.options.length > 0 ? "Here are your options" : "No options",
-    " "
-  ),
-  React.createElement(
-    "ol",
-    null,
-    React.createElement(
-      "li",
-      null,
-      "Chocotaco"
-    ),
-    React.createElement(
-      "li",
-      null,
-      "Ninja Turtle pops"
-    )
-  )
-);
+var onFormSubmit = function onFormSubmit(event) {
+  event.preventDefault();
+  var option = event.target.elements.option.value;
 
-var count = 0;
-var addOne = function addOne() {
-  count += 1;
-  renderCounter();
+  if (option) {
+    app.options.push(option);
+    event.target.elements.option.value = "";
+    renderForm();
+  }
 };
 
-var subTwo = function subTwo() {
-  count -= 1;
-  renderCounter();
+var clearOptions = function clearOptions() {
+  app.options = [];
+  renderForm();
 };
 
-var reset = function reset() {
-  count = 0;
-  renderCounter();
-};
-
-var renderCounter = function renderCounter() {
-  var templateTwo = React.createElement(
+var renderForm = function renderForm() {
+  var template = React.createElement(
     "div",
     null,
     React.createElement(
       "h1",
       null,
-      "Count: ",
-      count
+      app.title
+    ),
+    React.createElement(
+      "p",
+      null,
+      app.subtitle ? app.subtitle : null
+    ),
+    React.createElement(
+      "p",
+      null,
+      app.options.length > 0 ? "Here are your options" : "No options",
+      " "
+    ),
+    React.createElement(
+      "p",
+      null,
+      app.options.length
     ),
     React.createElement(
       "button",
-      { onClick: addOne },
-      "+1"
+      { onClick: clearOptions },
+      "Clear Options"
     ),
     React.createElement(
-      "button",
-      { onClick: subTwo },
-      "-1"
+      "ol",
+      null,
+      app.options.map(function (option) {
+        return React.createElement(
+          "li",
+          { key: option },
+          option
+        );
+      })
     ),
     React.createElement(
-      "button",
-      { onClick: reset },
-      "Reset"
+      "form",
+      { autoComplete: "off", onSubmit: onFormSubmit },
+      React.createElement("input", { type: "text", name: "option" }),
+      React.createElement(
+        "button",
+        null,
+        "Add Option"
+      )
     )
   );
-  ReactDOM.render(templateTwo, document.getElementById("app"));
+  ReactDOM.render(template, document.getElementById("app"));
 };
 
-renderCounter();
+renderForm();

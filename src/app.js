@@ -1,47 +1,45 @@
 const app = {
   title: "What To Do",
   subtitle: "I eat ice cream more that anything",
-  options: ["Paper", "Sauce"]
+  options: []
 };
 
-let templete = (
-  <div>
-    <h1>{app.title}</h1>
-    <p>{app.subtitle ? app.subtitle : null}</p>
-    <p>{app.options.length > 0 ? "Here are your options" : "No options"} </p>
-    <ol>
-      <li>Chocotaco</li>
-      <li>Ninja Turtle pops</li>
-    </ol>
-  </div>
-);
+const onFormSubmit = function(event) {
+  event.preventDefault();
+  const option = event.target.elements.option.value;
 
-let count = 0;
-let addOne = () => {
-  count += 1;
-  renderCounter();
+  if (option) {
+    app.options.push(option);
+    event.target.elements.option.value = "";
+    renderForm();
+  }
 };
 
-let subTwo = () => {
-  count -= 1;
-  renderCounter();
+const clearOptions = function() {
+  app.options = [];
+  renderForm();
 };
 
-let reset = () => {
-  count = 0;
-  renderCounter();
-};
-
-let renderCounter = function() {
-  const templateTwo = (
+const renderForm = function() {
+  let template = (
     <div>
-      <h1>Count: {count}</h1>
-      <button onClick={addOne}>+1</button>
-      <button onClick={subTwo}>-1</button>
-      <button onClick={reset}>Reset</button>
+      <h1>{app.title}</h1>
+      <p>{app.subtitle ? app.subtitle : null}</p>
+      <p>{app.options.length > 0 ? "Here are your options" : "No options"} </p>
+      <p>{app.options.length}</p>
+      <button onClick={clearOptions}>Clear Options</button>
+      <ol>
+        {app.options.map(option => {
+          return <li key={option}>{option}</li>;
+        })}
+      </ol>
+      <form autoComplete="off" onSubmit={onFormSubmit}>
+        <input type="text" name="option" />
+        <button>Add Option</button>
+      </form>
     </div>
   );
-  ReactDOM.render(templateTwo, document.getElementById("app"));
+  ReactDOM.render(template, document.getElementById("app"));
 };
 
-renderCounter();
+renderForm();

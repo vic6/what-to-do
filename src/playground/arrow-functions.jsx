@@ -7,6 +7,6 @@ var multiplier = {
   }
 };
 
-// console.log(multiplier.multiply());
-console.log(bar);
-var bar = 'paper';
+
+
+ReactDOM.render(templateTwo, document.getElementById("app"));
