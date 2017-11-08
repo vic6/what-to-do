@@ -1,54 +1,59 @@
-const app = {
-  title: "What To Do",
-  subtitle: "Do know what to do? I'll chose for you!*",
-  options: []
-};
-
-const onFormSubmit = function(event) {
-  event.preventDefault();
-  const option = event.target.elements.option.value;
-
-  if (option) {
-    app.options.push(option);
-    event.target.elements.option.value = "";
-    renderForm();
+class WhatToDoApp extends React.Component {
+  render() {
+    return (
+      <div>
+        <Header />
+        <Action />
+        <Options />
+        <AddOption />
+      </div>
+    );
   }
-};
+}
 
-const randomOption = function() {
-  let max = app.options.length;
-  let randNum = Math.floor(Math.random() * max);
-  console.log(app.options[randNum]);
-};
+class Header extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>What to Do?</h1>
+        <h2>Let me randomly pick an assignment for you.</h2>
+      </div>
+    );
+  }
+}
 
-const clearOptions = function() {
-  app.options = [];
-  renderForm();
-};
+class Action extends React.Component {
+  render() {
+    return <button>What should I do?</button>;
+  }
+}
 
-const renderForm = function() {
-  let template = (
-    <div>
-      <h1>{app.title}</h1>
-      <p>{app.subtitle ? app.subtitle : null}</p>
-      <p>{app.options.length > 0 ? "Here are your options" : "No options"} </p>
-      <button disabled={app.options < 1} onClick={randomOption}>
-        What should I do?
-      </button>
-      <button onClick={clearOptions}>Clear Options</button>
+class Options extends React.Component {
+  render() {
+    return (
+      <div>
+        <p>Options Component Here</p>
+        <Option />
+      </div>
+    );
+  }
+}
 
-      <ol>
-        {app.options.map(option => {
-          return <li key={option}>{option}</li>;
-        })}
-      </ol>
-      <form autoComplete="off" onSubmit={onFormSubmit}>
-        <input type="text" name="option" />
+class Option extends React.Component {
+  render() {
+    return <div>Option Right here dog</div>;
+  }
+}
+
+class AddOption extends React.Component {
+  render() {
+    return (
+      <form>
+        <input type="text" />
         <button>Add Option</button>
       </form>
-    </div>
-  );
-  ReactDOM.render(template, document.getElementById("app"));
-};
+    );
+  }
+}
 
-renderForm();
+ReactDOM.render(<WhatToDoApp />, document.getElementById("app"));
