@@ -1,13 +1,29 @@
 class WhatToDoApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { options: ["Ice cream", "sandwitches", "prayleans"] };
+    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
+  }
+  // Remember to return the value from setState
+  handleDeleteOptions() {
+    console.log("sup dog");
+    this.setState(() => {
+      return {
+        options: []
+      };
+    });
+  }
   render() {
     const title = "What should I do?";
     const subTitle = "Let me pick for you.";
-    let options = ["pie", "paper", "trash"];
     return (
       <div>
         <Header title={title} subTitle={subTitle} />
-        <Action />
-        <Options options={options} />
+        <Action hasOptions={this.state.options.length > 0} />
+        <Options
+          options={this.state.options}
+          handleDeleteOptions={this.handleDeleteOptions}
+        />
         <AddOption />
       </div>
     );
@@ -26,30 +42,28 @@ class Header extends React.Component {
 }
 
 class Action extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   handlePick() {
     //let randNum = Math.floor(Math.random() * max);
-    console.log("i am ice cream");
   }
   render() {
-    return <button onClick={this.handlePick}>What should I do?</button>;
+    return (
+      <button disabled={!this.props.hasOptions} onClick={this.handlePick}>
+        What should I do?
+      </button>
+    );
   }
 }
 
 class Options extends React.Component {
-  constructor(props) {
-    super(props);
-    this.removeAll = this.removeAll.bind(this);
-  }
-  handleRemoveAll() {
-    console.log(this.props);
-    this.props = [];
-  }
   render() {
     return (
       <div>
         <p>Options Component Here</p>
         {this.props.options.map(item => <Option key={item} itemText={item} />)}
-        <button onClick={this.handleRemoveAll}>Remove All</button>
+        <button onClick={this.props.handleDeleteOptions}>Remove All</button>
       </div>
     );
   }
