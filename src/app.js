@@ -36,15 +36,20 @@ class Action extends React.Component {
 }
 
 class Options extends React.Component {
-  removeAll() {
-    alert("System Compromised Self Destruct Initiated. Goodbye");
+  constructor(props) {
+    super(props);
+    this.removeAll = this.removeAll.bind(this);
+  }
+  handleRemoveAll() {
+    console.log(this.props);
+    this.props = [];
   }
   render() {
     return (
       <div>
         <p>Options Component Here</p>
         {this.props.options.map(item => <Option key={item} itemText={item} />)}
-        <button onClick={this.removeAll}>Remove All</button>
+        <button onClick={this.handleRemoveAll}>Remove All</button>
       </div>
     );
   }
