@@ -7,12 +7,16 @@ class WhatToDoApp extends React.Component {
     this.handleAddOption = this.handleAddOption.bind(this);
   }
   // Remember to return the value from setState
+  // handleDeleteOptions() {
+  //   this.setState(() => {
+  //     return {
+  //       options: []
+  //     };
+  //   });
+  // }
+  // short hand form
   handleDeleteOptions() {
-    this.setState(() => {
-      return {
-        options: []
-      };
-    });
+    this.setState(() => ({ options: [] }));
   }
   handlePick() {
     let max = this.state.options.length;
@@ -26,12 +30,10 @@ class WhatToDoApp extends React.Component {
     } else if (this.state.options.includes(option)) {
       return "Item is already in list.";
     }
-    this.setState(prevState => {
-      return {
-        // concat so we don't alter prev
-        options: prevState.options.concat(option)
-      };
-    });
+    this.setState(
+      // concat so we don't alter prevState
+      prevState => ({ options: prevState.options.concat(option) })
+    );
   }
 
   render() {
@@ -54,7 +56,7 @@ class WhatToDoApp extends React.Component {
   }
 }
 
-const Header = (props) => {
+const Header = props => {
   return (
     <div>
       <h1>{props.title}</h1>
@@ -71,17 +73,17 @@ const RandomChoice = props => {
   );
 };
 
-const Options = (props) => {
-    return (
-      <div>
-        <button onClick={props.handleDeleteOptions}>Remove All</button>
-        {props.options.map(item => <Option key={item} itemText={item} />)}
-      </div>
-    );
+const Options = props => {
+  return (
+    <div>
+      <button onClick={props.handleDeleteOptions}>Remove All</button>
+      {props.options.map(item => <Option key={item} itemText={item} />)}
+    </div>
+  );
 };
 
-const Option = (props) => {
-    return <div>{props.itemText}</div>;
+const Option = props => {
+  return <div>{props.itemText}</div>;
 };
 
 class AddOption extends React.Component {
@@ -99,9 +101,7 @@ class AddOption extends React.Component {
     console.log(error);
     event.target.elements.option.value = "";
 
-    this.setState(prevState => {
-      return { error: error };
-    });
+    this.setState(prevState => ({ error }));
   }
 
   render() {

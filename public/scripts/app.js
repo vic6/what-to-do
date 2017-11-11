@@ -23,15 +23,21 @@ var WhatToDoApp = function (_React$Component) {
     return _this;
   }
   // Remember to return the value from setState
+  // handleDeleteOptions() {
+  //   this.setState(() => {
+  //     return {
+  //       options: []
+  //     };
+  //   });
+  // }
+  // short hand form
 
 
   _createClass(WhatToDoApp, [{
     key: "handleDeleteOptions",
     value: function handleDeleteOptions() {
       this.setState(function () {
-        return {
-          options: []
-        };
+        return { options: [] };
       });
     }
   }, {
@@ -51,11 +57,10 @@ var WhatToDoApp = function (_React$Component) {
       } else if (this.state.options.includes(option)) {
         return "Item is already in list.";
       }
-      this.setState(function (prevState) {
-        return {
-          // concat so we don't alter prev
-          options: prevState.options.concat(option)
-        };
+      this.setState(
+      // concat so we don't alter prevState
+      function (prevState) {
+        return { options: prevState.options.concat(option) };
       });
     }
   }, {
