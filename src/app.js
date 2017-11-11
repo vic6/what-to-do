@@ -5,6 +5,7 @@ class WhatToDoApp extends React.Component {
     this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
+    this.handleDeleteOption = this.handleDeleteOption.bind(this);
   }
   // Remember to return the value from setState
   // handleDeleteOptions() {
@@ -18,6 +19,15 @@ class WhatToDoApp extends React.Component {
   handleDeleteOptions() {
     this.setState(() => ({ options: [] }));
   }
+
+  handleDeleteOption(optionToRemove) {
+    this.setState(prevState => ({
+      options: prevState.options.filter(option => {
+        return optionToRemove !== option;
+      })
+    }));
+  }
+
   handlePick() {
     let max = this.state.options.length;
     let randNum = Math.floor(Math.random() * max);
@@ -49,6 +59,7 @@ class WhatToDoApp extends React.Component {
         <Options
           options={this.state.options}
           handleDeleteOptions={this.handleDeleteOptions}
+          handleDeleteOption={this.handleDeleteOption}
         />
         <AddOption handleAddOption={this.handleAddOption} />
       </div>
@@ -76,14 +87,31 @@ const RandomChoice = props => {
 const Options = props => {
   return (
     <div>
-      <button onClick={props.handleDeleteOptions}>Remove All</button>
-      {props.options.map(item => <Option key={item} itemText={item} />)}
+      <button>Remove All</button>
+      {props.options.map(item => (
+        <Option
+          key={item}
+          itemText={item}
+          handleDeleteOption={props.handleDeleteOption}
+        />
+      ))}
     </div>
   );
 };
 
 const Option = props => {
-  return <div>{props.itemText}</div>;
+  return (
+    <div>
+      {props.itemText}
+      <button
+        onClick={event => {
+          props.handleDeleteOption(props.itemText);
+        }}
+      >
+        Remove Option
+      </button>
+    </div>
+  );
 };
 
 class AddOption extends React.Component {
