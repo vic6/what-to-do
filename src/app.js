@@ -2,10 +2,28 @@ class WhatToDoApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = { options: [] };
-    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handlePick = this.handlePick.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
+    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
     this.handleDeleteOption = this.handleDeleteOption.bind(this);
+  }
+  componentDidMount() {
+    try {
+      const json = localStorage.getItem("options");
+      const options = JSON.parse(json);
+      // only sets state if json is valid
+      if (options) this.setState(() => ({ options }));
+    } catch (error) {
+      // Don nothing
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    // won't rerender if options length hasn't changed
+    if (prevState.options.length !== this.state.options.length) {
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem("options", json);
+      console.log("Saving Data");
+    }
   }
   // Remember to return the value from setState
   // handleDeleteOptions() {
@@ -19,15 +37,11 @@ class WhatToDoApp extends React.Component {
   handleDeleteOptions() {
     this.setState(() => ({ options: [] }));
   }
-
   handleDeleteOption(optionToRemove) {
     this.setState(prevState => ({
-      options: prevState.options.filter(option => {
-        return optionToRemove !== option;
-      })
+      options: prevState.options.filter(option => optionToRemove !== option)
     }));
   }
-
   handlePick() {
     let max = this.state.options.length;
     let randNum = Math.floor(Math.random() * max);
@@ -87,7 +101,8 @@ const RandomChoice = props => {
 const Options = props => {
   return (
     <div>
-      <button>Remove All</button>
+      <button onClick={props.handleDeleteOptions}>Remove All</button>
+      {props.options.length === 0 && <p>Enter an item to start</p>}
       {props.options.map(item => (
         <Option
           key={item}
@@ -108,7 +123,7 @@ const Option = props => {
           props.handleDeleteOption(props.itemText);
         }}
       >
-        Remove Option
+        Remove
       </button>
     </div>
   );
@@ -126,10 +141,10 @@ class AddOption extends React.Component {
 
     const option = event.target.elements.option.value.trim();
     const error = this.props.handleAddOption(option);
-    console.log(error);
-    event.target.elements.option.value = "";
-
     this.setState(prevState => ({ error }));
+    if (!error) {
+      event.target.elements.option.value = "";
+    }
   }
 
   render() {

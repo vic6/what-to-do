@@ -17,24 +17,48 @@ var WhatToDoApp = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (WhatToDoApp.__proto__ || Object.getPrototypeOf(WhatToDoApp)).call(this, props));
 
     _this.state = { options: [] };
-    _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
     _this.handlePick = _this.handlePick.bind(_this);
     _this.handleAddOption = _this.handleAddOption.bind(_this);
+    _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
     _this.handleDeleteOption = _this.handleDeleteOption.bind(_this);
     return _this;
   }
-  // Remember to return the value from setState
-  // handleDeleteOptions() {
-  //   this.setState(() => {
-  //     return {
-  //       options: []
-  //     };
-  //   });
-  // }
-  // short hand form
-
 
   _createClass(WhatToDoApp, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      try {
+        var json = localStorage.getItem("options");
+        var options = JSON.parse(json);
+        // only sets state if json is valid
+        if (options) this.setState(function () {
+          return { options: options };
+        });
+      } catch (error) {
+        // Don nothing
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      // won't rerender if options length hasn't changed
+      if (prevState.options.length !== this.state.options.length) {
+        var json = JSON.stringify(this.state.options);
+        localStorage.setItem("options", json);
+        console.log("Saving Data");
+      }
+    }
+    // Remember to return the value from setState
+    // handleDeleteOptions() {
+    //   this.setState(() => {
+    //     return {
+    //       options: []
+    //     };
+    //   });
+    // }
+    // short hand form
+
+  }, {
     key: "handleDeleteOptions",
     value: function handleDeleteOptions() {
       this.setState(function () {
@@ -132,8 +156,13 @@ var Options = function Options(props) {
     null,
     React.createElement(
       "button",
-      null,
+      { onClick: props.handleDeleteOptions },
       "Remove All"
+    ),
+    props.options.length === 0 && React.createElement(
+      "p",
+      null,
+      "Enter an item to start"
     ),
     props.options.map(function (item) {
       return React.createElement(Option, {
@@ -157,7 +186,7 @@ var Option = function Option(props) {
           props.handleDeleteOption(props.itemText);
         }
       },
-      "Remove Option"
+      "Remove"
     )
   );
 };
@@ -183,12 +212,12 @@ var AddOption = function (_React$Component2) {
 
       var option = event.target.elements.option.value.trim();
       var error = this.props.handleAddOption(option);
-      console.log(error);
-      event.target.elements.option.value = "";
-
       this.setState(function (prevState) {
         return { error: error };
       });
+      if (!error) {
+        event.target.elements.option.value = "";
+      }
     }
   }, {
     key: "render",
