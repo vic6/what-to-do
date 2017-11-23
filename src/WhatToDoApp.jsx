@@ -1,3 +1,9 @@
+import React from "react";
+import Header from "./Header.jsx";
+import RandomChoice from "./RandomChoice.jsx";
+import Options from "./Options.jsx";
+import AddOption from "./AddOption.jsx";
+
 class WhatToDoApp extends React.Component {
   constructor(props) {
     super(props);
@@ -81,83 +87,4 @@ class WhatToDoApp extends React.Component {
   }
 }
 
-const Header = props => {
-  return (
-    <div>
-      <h1>{props.title}</h1>
-      <h2>{props.subTitle}</h2>
-    </div>
-  );
-};
-
-const RandomChoice = props => {
-  return (
-    <button disabled={!props.hasOptions} onClick={props.handlePick}>
-      What should I do?
-    </button>
-  );
-};
-
-const Options = props => {
-  return (
-    <div>
-      <button onClick={props.handleDeleteOptions}>Remove All</button>
-      {props.options.length === 0 && <p>Enter an item to start</p>}
-      {props.options.map(item => (
-        <Option
-          key={item}
-          itemText={item}
-          handleDeleteOption={props.handleDeleteOption}
-        />
-      ))}
-    </div>
-  );
-};
-
-const Option = props => {
-  return (
-    <div>
-      {props.itemText}
-      <button
-        onClick={event => {
-          props.handleDeleteOption(props.itemText);
-        }}
-      >
-        Remove
-      </button>
-    </div>
-  );
-};
-
-class AddOption extends React.Component {
-  //using local addOption,
-  constructor() {
-    super();
-    this.state = { error: undefined };
-    this.handleAddOption = this.handleAddOption.bind(this);
-  }
-  handleAddOption(event) {
-    event.preventDefault();
-
-    const option = event.target.elements.option.value.trim();
-    const error = this.props.handleAddOption(option);
-    this.setState(prevState => ({ error }));
-    if (!error) {
-      event.target.elements.option.value = "";
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        {this.state.error && <p>{this.state.error}</p>}
-        <form onSubmit={this.handleAddOption}>
-          Enter Name:<input autoComplete="off" type="text" name="option" />
-          <button>Add Option</button>
-        </form>
-      </div>
-    );
-  }
-}
-
-ReactDOM.render(<WhatToDoApp />, document.getElementById("app"));
+export default WhatToDoApp;
