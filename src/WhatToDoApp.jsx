@@ -5,14 +5,8 @@ import Options from "./Options.jsx";
 import AddOption from "./AddOption.jsx";
 
 class WhatToDoApp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { options: [] };
-    this.handlePick = this.handlePick.bind(this);
-    this.handleAddOption = this.handleAddOption.bind(this);
-    this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
-    this.handleDeleteOption = this.handleDeleteOption.bind(this);
-  }
+  state = { options: [] };
+
   componentDidMount() {
     try {
       const json = localStorage.getItem("options");
@@ -31,30 +25,25 @@ class WhatToDoApp extends React.Component {
       console.log("Saving Data");
     }
   }
-  // Remember to return the value from setState
-  // handleDeleteOptions() {
-  //   this.setState(() => {
-  //     return {
-  //       options: []
-  //     };
-  //   });
-  // }
-  // short hand form
-  handleDeleteOptions() {
+
+  handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
-  }
-  handleDeleteOption(optionToRemove) {
+  };
+
+  handleDeleteOption = optionToRemove => {
     this.setState(prevState => ({
       options: prevState.options.filter(option => optionToRemove !== option)
     }));
-  }
-  handlePick() {
+  };
+
+  handlePick = () => {
     let max = this.state.options.length;
     let randNum = Math.floor(Math.random() * max);
     alert(this.state.options[randNum]);
   }
   //Don't forget to return state
-  handleAddOption(option) {
+
+  handleAddOption = option => {
     if (!option) {
       return "Enter item to add to list.";
     } else if (this.state.options.includes(option)) {
@@ -64,7 +53,7 @@ class WhatToDoApp extends React.Component {
       // concat so we don't alter prevState
       prevState => ({ options: prevState.options.concat(option) })
     );
-  }
+  };
 
   render() {
     const title = "What should I do?";

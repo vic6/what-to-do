@@ -1,23 +1,17 @@
-import React from 'react';
+import React from "react";
 
 class AddOption extends React.Component {
-  //using local addOption,
-  constructor() {
-    super();
-    this.state = { error: undefined };
-    this.handleAddOption = this.handleAddOption.bind(this);
-  }
-  handleAddOption(event) {
+  state = { error: undefined };
+  handleAddOption = event => {
     event.preventDefault();
-
     const option = event.target.elements.option.value.trim();
     const error = this.props.handleAddOption(option);
     this.setState(prevState => ({ error }));
+
     if (!error) {
       event.target.elements.option.value = "";
     }
-  }
-
+  };
   render() {
     return (
       <div>
