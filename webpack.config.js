@@ -1,20 +1,26 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: './src/app.jsx',
+  entry: "./src/app.jsx",
   output: {
-    path: path.join(__dirname, 'public'),
-    filename: 'bundle.js'
+    path: path.join(__dirname, "public"),
+    filename: "bundle.js"
   },
   module: {
-    rules: [{
-      loader: 'babel-loader',
-      test: /\.jsx?$/,
-      exclude: /node_modules/
-    }]
+    rules: [
+      {
+        loader: "babel-loader",
+        test: /\.jsx?$/,
+        exclude: /node_modules/
+      },
+      {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"]
+      }
+    ]
   },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: "cheap-module-eval-source-map",
   devServer: {
-    publicPath: '/public/'
+    publicPath: "/public/"
   }
 };

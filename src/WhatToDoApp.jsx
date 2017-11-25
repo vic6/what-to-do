@@ -28,8 +28,7 @@ class WhatToDoApp extends React.Component {
     this.setState(prevState => ({
       selectedOption: option
     }));
-    return this.state.options[randNum];
-    //alert(this.state.options[randNum]);
+
   };
   //Don't forget to return state
 
