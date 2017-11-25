@@ -3,28 +3,13 @@ import Header from "./Header.jsx";
 import RandomChoice from "./RandomChoice.jsx";
 import Options from "./Options.jsx";
 import AddOption from "./AddOption.jsx";
+import OptionModal from "./OptionModal.jsx";
 
 class WhatToDoApp extends React.Component {
-  state = { options: [] };
-
-  componentDidMount() {
-    try {
-      const json = localStorage.getItem("options");
-      const options = JSON.parse(json);
-      // only sets state if json is valid
-      if (options) this.setState(() => ({ options }));
-    } catch (error) {
-      // Don nothing
-    }
-  }
-  componentDidUpdate(prevProps, prevState) {
-    // won't rerender if options length hasn't changed
-    if (prevState.options.length !== this.state.options.length) {
-      const json = JSON.stringify(this.state.options);
-      localStorage.setItem("options", json);
-      console.log("Saving Data");
-    }
-  }
+  state = {
+    options: [],
+    selectedOption: null
+  };
 
   handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
@@ -39,9 +24,20 @@ class WhatToDoApp extends React.Component {
   handlePick = () => {
     let max = this.state.options.length;
     let randNum = Math.floor(Math.random() * max);
-    alert(this.state.options[randNum]);
-  }
+    let option = this.state.options[randNum];
+    this.setState(prevState => ({
+      selectedOption: option
+    }));
+    return this.state.options[randNum];
+    //alert(this.state.options[randNum]);
+  };
   //Don't forget to return state
+
+  clearModal = () => {
+    this.setState({
+      selectedOption: null
+    });
+  }
 
   handleAddOption = option => {
     if (!option) {
@@ -54,6 +50,26 @@ class WhatToDoApp extends React.Component {
       prevState => ({ options: prevState.options.concat(option) })
     );
   };
+
+  componentDidMount() {
+    try {
+      const json = localStorage.getItem("options");
+      const options = JSON.parse(json);
+      // only sets state if json is valid
+      if (options) this.setState(() => ({ options }));
+    } catch (error) {
+      // Do nothing
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // won't rerender if options length hasn't changed
+    if (prevState.options.length !== this.state.options.length) {
+      const json = JSON.stringify(this.state.options);
+      localStorage.setItem("options", json);
+      console.log("Saving Data");
+    }
+  }
 
   render() {
     const title = "What should I do?";
@@ -69,6 +85,11 @@ class WhatToDoApp extends React.Component {
           options={this.state.options}
           handleDeleteOptions={this.handleDeleteOptions}
           handleDeleteOption={this.handleDeleteOption}
+        />
+        <OptionModal
+          selectedOption={this.state.selectedOption}
+          clearModal={this.clearModal}
+          //randomOption={this.handlePick}
         />
         <AddOption handleAddOption={this.handleAddOption} />
       </div>

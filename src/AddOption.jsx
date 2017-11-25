@@ -2,6 +2,7 @@ import React from "react";
 
 class AddOption extends React.Component {
   state = { error: undefined };
+
   handleAddOption = event => {
     event.preventDefault();
     const option = event.target.elements.option.value.trim();
