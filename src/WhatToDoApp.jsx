@@ -28,7 +28,6 @@ class WhatToDoApp extends React.Component {
     this.setState(prevState => ({
       selectedOption: option
     }));
-
   };
   //Don't forget to return state
 
@@ -36,7 +35,7 @@ class WhatToDoApp extends React.Component {
     this.setState({
       selectedOption: null
     });
-  }
+  };
 
   handleAddOption = option => {
     if (!option) {
@@ -76,21 +75,23 @@ class WhatToDoApp extends React.Component {
     return (
       <div>
         <Header title={title} subTitle={subTitle} />
-        <RandomChoice
-          hasOptions={this.state.options.length > 0}
-          handlePick={this.handlePick}
-        />
-        <Options
-          options={this.state.options}
-          handleDeleteOptions={this.handleDeleteOptions}
-          handleDeleteOption={this.handleDeleteOption}
-        />
+        <div className="container">
+          <RandomChoice
+            hasOptions={this.state.options.length > 0}
+            handlePick={this.handlePick}
+          />
+          <Options
+            options={this.state.options}
+            handleDeleteOptions={this.handleDeleteOptions}
+            handleDeleteOption={this.handleDeleteOption}
+          />
+          <AddOption handleAddOption={this.handleAddOption} />
+        </div>
         <OptionModal
           selectedOption={this.state.selectedOption}
           clearModal={this.clearModal}
           //randomOption={this.handlePick}
         />
-        <AddOption handleAddOption={this.handleAddOption} />
       </div>
     );
   }

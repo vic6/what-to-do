@@ -1,0 +1,24 @@
+.big-button {
+  background: $light-purple;
+  border: none;
+  border-bottom: .6rem solid darken($light-purple, 10%);
+  color: white;
+  font-weight: bold;
+  font-size: $l-size;
+  margin-bottom: $xl-size;
+  padding: 2.4rem;
+  width: 100%;
+}
+
+.big-button:disabled {
+  opacity: 0.5;
+}
+
+.button {
+  background: $light-purple;
+  border: none;
+  border-bottom: .3rem solid darken($light-purple, 10%);
+  color: white;
+  font-weight: 500;
+  padding: $s-size;
+}

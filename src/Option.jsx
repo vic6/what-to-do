@@ -4,6 +4,7 @@ const Option = props => (
   <div>
     {props.itemText}
     <button
+      className='button'
       onClick={event => {
         props.handleDeleteOption(props.itemText);
       }}
