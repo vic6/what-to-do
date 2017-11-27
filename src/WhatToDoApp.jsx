@@ -29,7 +29,6 @@ class WhatToDoApp extends React.Component {
       selectedOption: option
     }));
   };
-  //Don't forget to return state
 
   clearModal = () => {
     this.setState({
