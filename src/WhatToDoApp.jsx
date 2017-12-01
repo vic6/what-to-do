@@ -69,7 +69,7 @@ class WhatToDoApp extends React.Component {
   }
 
   render() {
-    const title = "What should I do?";
+    const title = "What to do?";
     const subTitle = "Let me pick for you.";
     return (
       <div>
